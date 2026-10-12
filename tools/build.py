@@ -37,7 +37,7 @@ def main():
                   + head + "</head>\n<body>\n<noscript>This companion needs JavaScript.</noscript>\n"
                   f"<script>\n{jszip}\n</script>\n<script>\n{app}\n{boot}\n</script>\n</body>\n</html>\n")
     (ROOT / "index.html").write_text(standalone, encoding="utf-8")
-    frag = head + JSZIP_CDN + f"\n<script>\n{app}\n{boot}\n</script>\n"
+    frag = head + JSZIP_CDN + f"\n<script>window.SG_EMBED = true;</script>\n<script>\n{app}\n{boot}\n</script>\n"
     (ROOT / "dist").mkdir(exist_ok=True)
     (ROOT / "dist" / "companion.html").write_text(frag, encoding="utf-8")
     print("index.html", len(standalone) // 1024, "KB; dist/companion.html", len(frag) // 1024, "KB")
