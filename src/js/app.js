@@ -292,7 +292,7 @@
     const blk = (title, html, id) => (html ? '<h2 class="h" id="' + (id || "") + '">' + esc(title) + "</h2>" + html : "");
     h += blk("The argument in brief", ch.overview ? '<div class="prose">' + md(ch.overview) + "</div>" : "");
     if (ch.voice) h += '<h2 class="h">In the author\'s voice</h2><div class="voice"><div class="who">A charitable reconstruction, paraphrased in Duckworth\'s first person. Her verbatim words are in the Read tab.</div><div class="prose">' + md(ch.voice) + "</div></div>";
-    if (ch.quotes && ch.quotes.length) h += '<h4 class="h">Key lines, verbatim</h4>' + ch.quotes.map((q) => '<blockquote class="quote"><q>' + esc(q.text) + "</q>" + (q.page ? '<span class="pg">p. ' + esc(q.page) + "</span>" : "") + "</blockquote>").join("");
+    if (ch.quotes && ch.quotes.length) h += '<h4 class="h">Key lines, verbatim</h4>' + ch.quotes.map((q) => { const b = findBlock(bid, ch.id, q.text); return '<blockquote class="quote"><q>' + esc(q.text) + "</q>" + (b ? '<span class="qsrc">' + (b.page ? "p. " + esc(b.page) + " · " : "") + '<a href="' + route("book", bid, ch.id, "read") + '" data-flash="' + b.pid + '">Show in text ›</a></span>' : "") + "</blockquote>"; }).join("");
     (ch.diagrams || []).forEach((d) => { h += SG.diagramHtml(d); });
     // Section by section
     const secs = ch.sections || [];
@@ -349,6 +349,14 @@
       }, 30);
     }
   }
+  // Locate the loaded book's paragraph that contains a quoted line (null if the book isn't loaded).
+  function findBlock(bid, chid, text) {
+    const pch = SG.loaded[bid] && SG.loaded[bid].chapters[chid];
+    if (!pch) return null;
+    const needle = SG.norm(text).toLowerCase().replace(/\s+/g, " ").slice(0, 60);
+    return pch.blocks.find((b) => SG.norm(b.text).toLowerCase().includes(needle)) || null;
+  }
+  SG.findBlock = findBlock;
   function gotoSection(key, smooth) {
     const rd = $("#reader"); if (!rd) return;
     const s = rd.querySelector('.bsec[data-sec="' + CSS.escape(key) + '"]');

@@ -72,6 +72,9 @@ ok("section notes box", !!ta);
 if (ta) { await ta.fill("My chapter note"); await page.waitForTimeout(700); ok("note persisted", await page.evaluate(() => Object.values(SG.data.notes).includes("My chapter note"))); }
 const enl = await page.$('[data-act="enlarge"]');
 if (enl) { await enl.click(); await page.waitForTimeout(200); ok("diagram enlarge modal", (await page.$$(".modal svg")).length > 0); await page.keyboard.press("Escape"); }
+const qa = await page.$(".qsrc a");
+ok("quote has page + link", !!qa && /p\. /.test(await page.$eval(".qsrc", (e) => e.textContent)));
+if (qa) { await qa.click(); await page.waitForTimeout(500); ok("show quote in text", await page.evaluate(() => /\/read/.test(location.hash) && !!document.querySelector("#reader .flash"))); }
 for (const tab of ["sources", "discuss"]) { await go("#/book/situated/ch01/" + tab); ok("tab " + tab + " renders", (await page.$eval("#tabbody", (e) => e.innerText.length)) > 200); }
 await go("#/book/situated/ch01/read");
 const before = await page.evaluate(() => SG.data.settings.size);

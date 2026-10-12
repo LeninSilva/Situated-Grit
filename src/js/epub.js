@@ -286,20 +286,22 @@
     const kept = sections.filter((s) => s.el.textContent.trim() || s.el.querySelector("img"));
     const root = doc.createElement("div");
     const blocks = [];
-    let pid = 0;
+    let pid = 0, page = "";
     kept.forEach((s, i) => {
       const h = doc.createElement("h3"); h.className = "bsec-h"; h.id = "sec-" + s.key; h.textContent = s.title;
       if (!(s.key === "_open" && i === 0)) s.el.insertBefore(h, s.el.firstChild);
       // Number paragraph-level blocks for highlights and search.
-      const cands = Array.from(s.el.querySelectorAll("p, li, figcaption, td"));
+      // Walk page markers and blocks in document order so each block knows the print page it starts on.
+      const cands = Array.from(s.el.querySelectorAll(".pg, p, li, figcaption, td"));
       cands.forEach((b) => {
+        if (b.classList.contains("pg")) { page = b.getAttribute("data-page") || page; return; }
         if ((b.localName === "li" || b.localName === "td") && b.querySelector("p")) return;
         if (b.closest("[data-ui]")) return;
         if (b.parentElement && b.parentElement.closest("p, li, figcaption")) return;
         pid++;
         b.setAttribute("data-pid", String(pid));
         const txt = SG.contentText(b).replace(/\s+/g, " ").trim();
-        if (txt) blocks.push({ pid: String(pid), sec: s.key, text: txt });
+        if (txt) blocks.push({ pid: String(pid), sec: s.key, text: txt, page });
       });
       root.appendChild(s.el);
     });

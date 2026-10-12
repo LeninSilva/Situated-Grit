@@ -9,7 +9,7 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "src"
 JS_ORDER = ["js/core.js", "js/markup.js", "js/diagrams.js", "js/epub.js", "js/reader.js",
-            "content/glossary.js", "content/glossary2.js", "content/intro.js", "content/situated.js", "content/situated-1.js", "content/situated-2.js", "content/situated-3.js", "content/grit.js", "content/grit-1.js", "content/grit-2.js",
+            "content/glossary.js", "content/glossary2.js", "content/intro.js", "content/situated.js", "content/situated-1.js", "content/situated-2.js", "content/situated-3.js", "content/grit.js", "content/grit-1.js", "content/grit-2.js", "content/grit-deep.js",
             "js/app.js"]
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'

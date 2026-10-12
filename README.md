@@ -21,7 +21,7 @@ An interactive study app for Angela Duckworth's *Grit: The Power of Passion and 
   - who else is in the conversation;
   - a reading plan for the club.
 - **Every chapter and section.** Each chapter has four tabs:
-  - **Guide**: the argument in brief, the author's voice in her own key lines, a section-by-section guide, where the idea comes from, the evidence, the live debates, people to know, why it matters, and diagrams.
+  - **Guide**: the argument in brief, the author's voice in her own key lines (each with its page number and a *Show in text* link), a section-by-section guide, where the idea comes from, the evidence, the live debates, people to know, why it matters, and diagrams.
   - **Read**: the full verbatim text, split into navigable sections, with a guide card and a notes box at each section.
   - **Sources**: every endnote and footnote for the chapter, searchable.
   - **Discuss**: comprehension, critical (graduate and PhD level), personal, and book-club questions, each with a space for your answer.
